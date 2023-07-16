@@ -1,12 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from routers import user
 import json
 
 app = Flask(__name__)
 CORS(app)
 
-with open('glossary.json') as file:
-    data = json.load(file)
+
+app.register_blueprint(user.account_blueprint, url_prefix="/api/v1")
 
 
 @app.route("/api/v1/healthz")
@@ -14,21 +15,8 @@ def health():
     return jsonify({"message": "Ok v1"}), 200
 
 
-@app.route("/api/v1/users/<id>")
-def get_user(id):
-    req_name = request.args.get("name")
-    user = {
-        "id": id,
-        "name": req_name if req_name else "Chandara",
-        "email": "name@example.com"
-    }
-    return jsonify(user), 200
-
-
-@app.route("/api/v1/users", methods=['POST'])
-def create_user():
-    req_user = request.get_json()
-    return jsonify(req_user), 201
+with open('glossary.json') as file:
+    data = json.load(file)
 
 
 @app.route("/api/v1/gdt", methods=['POST'])
