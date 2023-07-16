@@ -15,7 +15,7 @@ def health():
     return jsonify({"message": "Ok v1"}), 200
 
 
-with open('glossary.json') as file:
+with open('datasets/glossary.json') as file:
     data = json.load(file)
 
 
