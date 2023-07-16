@@ -1,26 +1,27 @@
 from flask import Blueprint, request
-import json
+from domain.dialogflow import get_glossary, get_taxpayer
 
 dialogflow_blueprint = Blueprint(
     "dialogflow",
     __name__,
 )
 
-with open('datasets/glossary.json') as file:
-    data = json.load(file)
-
 
 @dialogflow_blueprint.route("/dialogflow", methods=['POST'])
 def get_response():
     req = request.get_json(force=True)
     queryResult = req.get('queryResult')
+    action = queryResult.get("action")
     parameters = queryResult.get("parameters")
     glossary: str = parameters.get('glossary')
+    taxpayer: str = parameters.get("taxpayer")
 
     response: str = ""
-    for intent in data['intents']:
-        if intent['tagKH'] == glossary:
-            response = intent['response']
+
+    if (action == 'input.glossary'):
+        response = get_glossary(glossary)
+    elif (action == 'input.taxpayer'):
+        response = get_taxpayer(taxpayer)
 
     return {
         "fulfillmentText":  response if response else "សូមទោសផង ប្អូននៅមិនទាន់យល់ពីសំណួរនេះ ប្អូននឹងយកទៅសិក្សាបន្ថែម"
