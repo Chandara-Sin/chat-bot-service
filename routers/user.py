@@ -1,12 +1,12 @@
 from flask import Blueprint, request, jsonify
 
-account_blueprint = Blueprint(
-    "account",
+user_blueprint = Blueprint(
+    "user",
     __name__,
 )
 
 
-@account_blueprint.route("/users/<id>")
+@user_blueprint.route("/users/<id>")
 def get_user(id):
     req_name = request.args.get("name")
     user = {
@@ -17,7 +17,7 @@ def get_user(id):
     return jsonify(user), 200
 
 
-@account_blueprint.route("/users", methods=['POST'])
+@user_blueprint.route("/users", methods=['POST'])
 def create_user():
     req_user = request.get_json()
     return jsonify(req_user), 201
