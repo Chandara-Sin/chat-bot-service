@@ -102,3 +102,8 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# model cache
+sklearn_model_cache
+label_encoder.pickle
+tokenizer.pickle
