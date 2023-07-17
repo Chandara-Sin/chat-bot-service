@@ -3,8 +3,6 @@ from colorama import Fore, Style
 import json
 import numpy as np
 from tensorflow import keras
-
-
 import colorama
 colorama.init()
 
@@ -12,8 +10,10 @@ colorama.init()
 with open("datasets/patent_tax.json") as file:
     patent_tax_data = json.load(file)
 
+max_len = 20
 
-def chat():
+
+def chatbot():
     # load trained model
     model = keras.models.load_model('chat_model')
 
@@ -24,9 +24,6 @@ def chat():
     # load label encoder object
     with open('label_encoder.pickle', 'rb') as enc:
         lbl_encoder = pickle.load(enc)
-
-    # parameters
-    max_len = 20
 
     while True:
         print(Fore.LIGHTBLUE_EX + "User: " + Style.RESET_ALL, end="")
@@ -47,4 +44,5 @@ def chat():
 
 
 print(Fore.YELLOW + "Start messaging with the bot (type quit to stop)!" + Style.RESET_ALL)
-chat()
+
+chatbot()

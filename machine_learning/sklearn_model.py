@@ -1,8 +1,6 @@
 import json
 import numpy as np
 import tensorflow as tf
-from tensorflow import keras
-import tensorflow as tf
 import pickle
 from sklearn.preprocessing import LabelEncoder
 
@@ -56,17 +54,16 @@ model.compile(loss='sparse_categorical_crossentropy',
 
 model.summary()
 
-
 epochs = 500
 history = model.fit(padded_sequences, np.array(training_labels), epochs=epochs)
 
-# to save the trained model
+# named the trained model
 model.save("sklearn_model_cache")
 
-# to save the fitted tokenizer
+# saved the fitted tokenizer
 with open('tokenizer.pickle', 'wb') as handle:
     pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-# to save the fitted label encoder
+# saved the fitted label encoder
 with open('label_encoder.pickle', 'wb') as ecn_file:
     pickle.dump(lbl_encoder, ecn_file, protocol=pickle.HIGHEST_PROTOCOL)
