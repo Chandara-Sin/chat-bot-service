@@ -1,5 +1,9 @@
 # CHATBOT-SERVICE
 
+```
+Repository: https://github.com/Chandara-Sin/gdt-chatbot-service.git
+```
+
 ## Requirement
 
 ```
