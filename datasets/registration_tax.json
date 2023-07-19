@@ -1,6 +1,6 @@
 [
   {
-    "intent": "registeration tax",
+    "intent": "registration tax",
     "pattern": [
       "ពន្ធប្រថាប់ត្រា",
       "ពន្ធប្រថាប់ត្រាគឺជាអ្វី",
@@ -27,7 +27,7 @@
     ]
   },
   {
-    "intent": "registeration tax rate and base",
+    "intent": "registration tax rate and base",
     "pattern": [
       "តើពន្ធប្រថាប់ត្រាត្រូវបានគណនាដូចម្ដេច",
       "តើមូលដ្ឋានគិតពន្ធប្រថាប់ត្រាត្រូវបានកំណត់ដូចម្ដេច",
