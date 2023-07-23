@@ -19,7 +19,7 @@ def get_taxpayer(taxpayer: str):
     response: str = ""
     for data in taxpayer_data:
         if (data['tagKH']):
-            if taxpayer in data['tagKH']:
+            if taxpayer in data['tagKH'] and 'registered' not in data['intent']:
                 response = data['responses'][0]
     return response
 
