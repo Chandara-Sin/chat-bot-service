@@ -26,5 +26,5 @@ def get_response():
         response = get_taxpayer_registered(taxpayer)
 
     return {
-        "fulfillmentText":  response if response else "សូមទោសផង ប្អូននៅមិនទាន់យល់ពីសំណួរនេះ ប្អូននឹងយកទៅសិក្សាបន្ថែម"
+        "fulfillmentText":  response if response else "សូមទោសផង ខាងនាងខ្ញុំនៅមិនទាន់យល់ពីសំណួរនេះ ខាងនាងខ្ញុំនឹងយកទៅសិក្សាបន្ថែម"
     }
