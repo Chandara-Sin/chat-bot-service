@@ -22,3 +22,12 @@ def get_taxpayer(taxpayer: str):
             if taxpayer in data['tagKH']:
                 response = data['responses'][0]
     return response
+
+
+def get_taxpayer_registered(taxpayer: str):
+    response: str = ""
+    for data in taxpayer_data:
+        if (data['tagKH']):
+            if taxpayer in data['tagKH'] and 'registered' in data['intent']:
+                response = data['responses'][0]
+    return response

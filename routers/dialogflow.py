@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from domain.dialogflow import get_glossary, get_taxpayer
+from domain.dialogflow import get_glossary, get_taxpayer, get_taxpayer_registered
 
 dialogflow_blueprint = Blueprint(
     "dialogflow",
@@ -22,6 +22,8 @@ def get_response():
         response = get_glossary(glossary)
     elif (action == 'input.taxpayer'):
         response = get_taxpayer(taxpayer)
+    elif (action == 'input.taxpayer_registered'):
+        response = get_taxpayer_registered(taxpayer)
 
     return {
         "fulfillmentText":  response if response else "សូមទោសផង ប្អូននៅមិនទាន់យល់ពីសំណួរនេះ ប្អូននឹងយកទៅសិក្សាបន្ថែម"
