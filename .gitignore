@@ -108,3 +108,6 @@ venv.bak/
 sklearn_model_cache
 label_encoder.pickle
 tokenizer.pickle
+
+# Tax_Data
+/tax_data.csv

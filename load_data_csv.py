@@ -9,6 +9,7 @@ def convert_to_csv():
     for i in datasets_name:
         data = pd.read_json(f"datasets/{i}.json")
         data.to_csv(f"{i}.csv", index=False)
+    print("Convert Data: Completed")
 
 
 def merge_csv():
@@ -19,14 +20,15 @@ def merge_csv():
         df_tax = pd.concat([df_tax, df_specific_tax], ignore_index=True)
         if os.path.exists(individual_file):
             os.remove(individual_file)
-            print(f"Deleted '{individual_file}'")
     df_tax.to_csv("tax_data.csv", index=False)
+    print("Merged Data: Completed")
 
 
 def clean_data():
     df = pd.read_csv("tax_data.csv")
     df_cleaned = df[df.pattern != "[]"]
     df_cleaned.to_csv("tax_data.csv", index=False)
+    print("Clean Data: Completed")
 
 
 def manipulate_data():
@@ -35,13 +37,23 @@ def manipulate_data():
         if 'e-filing' in text:
             return text
         return text.replace('-', ' ')
-
     df = pd.read_csv("tax_data.csv")
     df.intent = df.intent.apply(manipulate)
     df.to_csv("tax_data.csv", index=False)
+    print("Manipulated Data: Completed")
+
+
+def add_tax_payer_data():
+    df = pd.read_json(f"datasets/taxpayer.json")
+    df.drop(columns='tagKH', inplace=True)
+    df_tax = pd.read_csv("tax_data.csv")
+    df_tax = pd.concat([df_tax, df], ignore_index=True)
+    df_tax.to_csv("tax_data.csv", index=False)
+    print("Add Tax Payer Data: Completed")
 
 
 convert_to_csv()
 merge_csv()
 clean_data()
 manipulate_data()
+add_tax_payer_data()
