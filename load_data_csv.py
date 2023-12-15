@@ -15,11 +15,11 @@ def convert_to_csv():
 def merge_csv():
     df_tax = pd.DataFrame()
     for i in datasets_name:
-        individual_file = f"{i}.csv"
-        df_specific_tax = pd.read_csv(individual_file)
+        individual_tax_file = f"{i}.csv"
+        df_specific_tax = pd.read_csv(individual_tax_file)
         df_tax = pd.concat([df_tax, df_specific_tax], ignore_index=True)
-        if os.path.exists(individual_file):
-            os.remove(individual_file)
+        if os.path.exists(individual_tax_file):
+            os.remove(individual_tax_file)
     df_tax.to_csv("tax_data.csv", index=False)
     print("Merged Data: Completed")
 
@@ -31,7 +31,7 @@ def clean_data():
     print("Clean Data: Completed")
 
 
-def manipulate_data():
+def filter_data():
     def manipulate(text):
         text = text.lower()
         if 'e-filing' in text:
@@ -52,8 +52,12 @@ def add_tax_payer_data():
     print("Add Tax Payer Data: Completed")
 
 
+def manipulate_data():
+    return
+
+
 convert_to_csv()
 merge_csv()
 clean_data()
-manipulate_data()
+filter_data()
 add_tax_payer_data()
