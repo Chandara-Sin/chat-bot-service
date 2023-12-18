@@ -40,7 +40,7 @@ def filter_data():
     df = pd.read_csv("tax_data.csv")
     df.intent = df.intent.apply(manipulate)
     df.to_csv("tax_data.csv", index=False)
-    print("Manipulated Data: Completed")
+    print("Filter Data: Completed")
 
 
 def add_tax_payer_data():
@@ -53,7 +53,14 @@ def add_tax_payer_data():
 
 
 def manipulate_data():
-    return
+    df = pd.read_csv("tax_data.csv")
+    df.rename(columns={"responses": "response"}, inplace=True)
+    print(df.describe)
+    df['response'] = df['response'].str.replace(
+        r'\[|\]|\'+|\"+', '', regex=True)
+    print(df.head(3))
+    df.to_csv("tax_data.csv", index=False)
+    print("Manipulated Data: Completed")
 
 
 convert_to_csv()
@@ -61,3 +68,4 @@ merge_csv()
 clean_data()
 filter_data()
 add_tax_payer_data()
+manipulate_data()
