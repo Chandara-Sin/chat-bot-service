@@ -55,12 +55,29 @@ def add_tax_payer_data():
 def manipulate_data():
     df = pd.read_csv("tax_data.csv")
     df.rename(columns={"responses": "response"}, inplace=True)
-    print(df.describe)
     df['response'] = df['response'].str.replace(
         r'\[|\]|\'+|\"+', '', regex=True)
-    print(df.head(3))
     df.to_csv("tax_data.csv", index=False)
     print("Manipulated Data: Completed")
+
+
+def mining_data():
+    df = pd.read_csv("tax_data.csv")
+    ls = []
+    for _, row in df.iterrows():
+        patterns = row['pattern'].split(', ')
+        for i, pattern in enumerate(patterns):
+            new_row = {
+                'intent': row['intent'],
+                'pattern': "".join([c for c in pattern if c not in ["[", "]", "'", "\\", "u", "2", "0", "b"]]),
+                'response': row['response']
+            }
+            ls.append(new_row)
+
+    df_tax = pd.DataFrame(ls, columns=[
+        'intent', 'pattern', 'response'])
+    df_tax.to_csv("tax_data.csv", index=False)
+    print("Mining Data: Completed")
 
 
 convert_to_csv()
@@ -69,3 +86,4 @@ clean_data()
 filter_data()
 add_tax_payer_data()
 manipulate_data()
+mining_data()
