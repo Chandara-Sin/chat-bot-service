@@ -4,24 +4,15 @@ import os
 datasets_name = ['e-tax-service', 'patent_tax', 'registration_tax', 'specific_tax',
                  'tax_on_property_rental', 'tax_on_property', 'tax_on_salary', 'tax_on_transportation', 'tax_on_unused_land', 'vat', 'withholding_tax']
 
-
-def convert_to_csv():
-    for i in datasets_name:
-        data = pd.read_json(f"datasets/{i}.json")
-        data.to_csv(f"{i}.csv", index=False)
-    print("Convert Data: Completed")
+datasets_dir = "datasets"
+output_file = "tax_data.csv"
 
 
-def merge_csv():
-    df_tax = pd.DataFrame()
-    for i in datasets_name:
-        individual_tax_file = f"{i}.csv"
-        df_specific_tax = pd.read_csv(individual_tax_file)
-        df_tax = pd.concat([df_tax, df_specific_tax], ignore_index=True)
-        if os.path.exists(individual_tax_file):
-            os.remove(individual_tax_file)
-    df_tax.to_csv("tax_data.csv", index=False)
-    print("Merged Data: Completed")
+def convert_and_merge_data():
+    df_tax = pd.concat([pd.read_json(os.path.join(
+        datasets_dir, f"{i}.json")) for i in datasets_name], ignore_index=True)
+    df_tax.to_csv(output_file, index=False)
+    print("Conversion and merging completed.")
 
 
 def clean_data():
@@ -79,11 +70,31 @@ def mining_data():
     df_tax.to_csv("tax_data.csv", index=False)
     print("Mining Data: Completed")
 
+# def convert_to_csv():
+#     for i in datasets_name:
+#         data = pd.read_json(f"datasets/{i}.json")
+#         data.to_csv(f"{i}.csv", index=False)
+#     print("Convert Data: Completed")
 
-convert_to_csv()
-merge_csv()
-clean_data()
-filter_data()
-add_tax_payer_data()
-manipulate_data()
-mining_data()
+
+# def merge_csv():
+#     df_tax = pd.DataFrame()
+#     for i in datasets_name:
+#         individual_tax_file = f"{i}.csv"
+#         df_specific_tax = pd.read_csv(individual_tax_file)
+#         df_tax = pd.concat([df_tax, df_specific_tax], ignore_index=True)
+#         if os.path.exists(individual_tax_file):
+#             os.remove(individual_tax_file)
+#     df_tax.to_csv("tax_data.csv", index=False)
+#     print("Merged Data: Completed")
+
+
+# convert_to_csv()
+# merge_csv()
+# clean_data()
+# filter_data()
+# add_tax_payer_data()
+# manipulate_data()
+# mining_data()
+
+convert_and_merge_data()
