@@ -12,14 +12,17 @@ def convert_and_merge_data():
     df_tax = pd.concat([pd.read_json(os.path.join(
         datasets_dir, f"{i}.json")) for i in datasets_name], ignore_index=True)
     df_tax.to_csv(output_file, index=False)
-    print("Conversion and merging completed.")
+    print("Conversion and Merging completed.")
 
 
 def clean_data():
-    df = pd.read_csv("tax_data.csv")
-    df_cleaned = df[df.pattern != "[]"]
-    df_cleaned.to_csv("tax_data.csv", index=False)
-    print("Clean Data: Completed")
+    try:
+        df = pd.read_csv(output_file)
+        df_cleaned = df[df.pattern != "[]"]
+        df_cleaned.to_csv(output_file, index=False)
+        print("Clean Data: Completed")
+    except FileNotFoundError:
+        print(f"Error: File '{output_file}' not found.")
 
 
 def filter_data():
@@ -91,10 +94,9 @@ def mining_data():
 
 # convert_to_csv()
 # merge_csv()
-# clean_data()
+convert_and_merge_data()
+clean_data()
 # filter_data()
 # add_tax_payer_data()
 # manipulate_data()
 # mining_data()
-
-convert_and_merge_data()
