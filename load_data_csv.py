@@ -69,41 +69,7 @@ def wrangle_tax_data(data_path="tax_data.csv"):
         r"\[|\]|\'+|\"+", "", regex=True
     )
     df_tax.to_csv(data_path, index=False)
-
-
-# def manipulate_data():
-#     df = pd.read_csv("tax_data.csv")
-#     df.rename(columns={"responses": "response"}, inplace=True)
-#     df['response'] = df['response'].str.replace(
-#         r'\[|\]|\'+|\"+', '', regex=True)
-#     df.to_csv("tax_data.csv", index=False)
-#     print("Manipulated Data: Completed")
-
-
-# def mining_data():
-#     df = pd.read_csv("tax_data.csv")
-#     ls = []
-#     for _, row in df.iterrows():
-#         patterns = row['pattern'].split(', ')
-#         for i, pattern in enumerate(patterns):
-#             new_row = {
-#                 'intent': row['intent'],
-#                 'pattern': "".join([c for c in pattern if c not in ["[", "]", "'", "\\", "u", "2", "0", "b"]]),
-#                 'response': row['response']
-#             }
-#             ls.append(new_row)
-
-#     df_tax = pd.DataFrame(ls, columns=[
-#         'intent', 'pattern', 'response'])
-#     df_tax.to_csv("tax_data.csv", index=False)
-#     print("Mining Data: Completed")
-
-# def convert_to_csv():
-#     for i in datasets_name:
-#         data = pd.read_json(f"datasets/{i}.json")
-#         data.to_csv(f"{i}.csv", index=False)
-#     print("Convert Data: Completed")
-
+    print("Wrangle Data: Completed")
 
 # def merge_csv():
 #     df_tax = pd.DataFrame()
@@ -116,12 +82,9 @@ def wrangle_tax_data(data_path="tax_data.csv"):
 #     df_tax.to_csv("tax_data.csv", index=False)
 #     print("Merged Data: Completed")
 
-# convert_to_csv()
-# merge_csv()
+
 convert_and_merge_data()
 clean_data()
 filter_data()
 add_tax_payer_data()
 wrangle_tax_data()
-# manipulate_data()
-# mining_data()
