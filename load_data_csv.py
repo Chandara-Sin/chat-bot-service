@@ -46,32 +46,57 @@ def add_tax_payer_data():
     print("Add Tax Payer Data: Completed")
 
 
-def manipulate_data():
-    df = pd.read_csv("tax_data.csv")
-    df.rename(columns={"responses": "response"}, inplace=True)
-    df['response'] = df['response'].str.replace(
-        r'\[|\]|\'+|\"+', '', regex=True)
-    df.to_csv("tax_data.csv", index=False)
-    print("Manipulated Data: Completed")
-
-
-def mining_data():
-    df = pd.read_csv("tax_data.csv")
+def wrangle_tax_data(data_path="tax_data.csv"):
+    df = pd.read_csv(data_path)
     ls = []
     for _, row in df.iterrows():
-        patterns = row['pattern'].split(', ')
-        for i, pattern in enumerate(patterns):
+        patterns = row["pattern"].split(", ")
+        for pattern in patterns:
+            pattern = "".join(
+                [c for c in pattern if c not in [
+                    "[", "]", "'", "\\", "u", "2", "0", "b"]]
+            )
             new_row = {
-                'intent': row['intent'],
-                'pattern': "".join([c for c in pattern if c not in ["[", "]", "'", "\\", "u", "2", "0", "b"]]),
-                'response': row['response']
+                "intent": row["intent"],
+                "pattern": pattern,
+                "response": row["responses"],
             }
             ls.append(new_row)
 
     df_tax = pd.DataFrame(ls, columns=[
         'intent', 'pattern', 'response'])
-    df_tax.to_csv("tax_data.csv", index=False)
-    print("Mining Data: Completed")
+    df_tax["response"] = df_tax.response.str.replace(
+        r"\[|\]|\'+|\"+", "", regex=True
+    )
+    df_tax.to_csv(data_path, index=False)
+
+
+# def manipulate_data():
+#     df = pd.read_csv("tax_data.csv")
+#     df.rename(columns={"responses": "response"}, inplace=True)
+#     df['response'] = df['response'].str.replace(
+#         r'\[|\]|\'+|\"+', '', regex=True)
+#     df.to_csv("tax_data.csv", index=False)
+#     print("Manipulated Data: Completed")
+
+
+# def mining_data():
+#     df = pd.read_csv("tax_data.csv")
+#     ls = []
+#     for _, row in df.iterrows():
+#         patterns = row['pattern'].split(', ')
+#         for i, pattern in enumerate(patterns):
+#             new_row = {
+#                 'intent': row['intent'],
+#                 'pattern': "".join([c for c in pattern if c not in ["[", "]", "'", "\\", "u", "2", "0", "b"]]),
+#                 'response': row['response']
+#             }
+#             ls.append(new_row)
+
+#     df_tax = pd.DataFrame(ls, columns=[
+#         'intent', 'pattern', 'response'])
+#     df_tax.to_csv("tax_data.csv", index=False)
+#     print("Mining Data: Completed")
 
 # def convert_to_csv():
 #     for i in datasets_name:
@@ -91,12 +116,12 @@ def mining_data():
 #     df_tax.to_csv("tax_data.csv", index=False)
 #     print("Merged Data: Completed")
 
-
 # convert_to_csv()
 # merge_csv()
 convert_and_merge_data()
 clean_data()
-# filter_data()
-# add_tax_payer_data()
+filter_data()
+add_tax_payer_data()
+wrangle_tax_data()
 # manipulate_data()
 # mining_data()
