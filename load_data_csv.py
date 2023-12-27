@@ -2,15 +2,18 @@ import pandas as pd
 import os
 
 datasets_name = ['e-tax-service', 'patent_tax', 'registration_tax', 'specific_tax',
-                 'tax_on_property_rental', 'tax_on_property', 'tax_on_salary', 'tax_on_transportation', 'tax_on_unused_land', 'vat', 'withholding_tax']
+                 'tax_on_property_rental', 'tax_on_property', 'tax_on_salary', 'tax_on_transportation', 'tax_on_unused_land', 'vat', 'withholding_tax', "taxpayer"]
 
 datasets_dir = "datasets"
 output_file = "tax_data.csv"
 
 
 def convert_and_merge_data():
-    df_tax = pd.concat([pd.read_json(os.path.join(
-        datasets_dir, f"{i}.json")) for i in datasets_name], ignore_index=True)
+    df_tax = pd.concat([pd.read_json(os.path.join(datasets_dir, f"{i}.json"))
+                        .drop('tagKH', axis=1) if i == "taxpayer"
+                        else pd.read_json(os.path.join(datasets_dir, f"{i}.json"))
+                        for i in datasets_name], ignore_index=True)
+
     df_tax.to_csv(output_file, index=False)
     print("Conversion and Merging completed.")
 
@@ -35,15 +38,6 @@ def filter_data():
     df.intent = df.intent.apply(manipulate)
     df.to_csv("tax_data.csv", index=False)
     print("Filter Data: Completed")
-
-
-def add_tax_payer_data():
-    df = pd.read_json(f"datasets/taxpayer.json")
-    df.drop(columns='tagKH', inplace=True)
-    df_tax = pd.read_csv("tax_data.csv")
-    df_tax = pd.concat([df_tax, df], ignore_index=True)
-    df_tax.to_csv("tax_data.csv", index=False)
-    print("Add Tax Payer Data: Completed")
 
 
 def wrangle_tax_data(data_path="tax_data.csv"):
@@ -86,5 +80,4 @@ def wrangle_tax_data(data_path="tax_data.csv"):
 convert_and_merge_data()
 clean_data()
 filter_data()
-add_tax_payer_data()
 wrangle_tax_data()
