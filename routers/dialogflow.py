@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from domain.dialogflow import get_glossary, get_taxpayer, get_taxpayer_registered
+from domain.dialogflow import get_glossary, get_taxpayer, get_taxpayer_registered, create_intent
 
 dialogflow_blueprint = Blueprint(
     "dialogflow",
@@ -27,4 +27,16 @@ def get_response():
 
     return {
         "fulfillmentText":  response if response else "សូមទោសផង ខាងនាងខ្ញុំនៅមិនទាន់យល់ពីសំណួរនេះ ខាងនាងខ្ញុំនឹងយកទៅសិក្សាបន្ថែម"
-    }
+    }, 201
+
+
+@dialogflow_blueprint.route("/dialogflow/intent", methods=['POST'])
+def dialogflow_intent():
+    req = request.get_json(force=True)
+    display_name = req["display_name"]
+    training_phrases_parts = req["training_phrases_parts"]
+    message_texts = req["message_texts"]
+
+    res = create_intent(display_name, training_phrases_parts, message_texts)
+
+    return {"message": f"Intent '{display_name}' created successfully.", "data": res}, 201

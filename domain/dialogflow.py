@@ -1,4 +1,6 @@
 import json
+from google.cloud import dialogflow
+import os
 
 with open('datasets/glossary.json') as file:
     glossary_data = json.load(file)
@@ -30,4 +32,33 @@ def get_taxpayer_registered(taxpayer: str):
         if (data['tagKH']):
             if taxpayer in data['tagKH'] and 'registered' in data['intent']:
                 response = data['responses'][0]
+    return response
+
+
+def create_intent(display_name, training_phrases_parts, message_texts):
+    intents_client = dialogflow.IntentsClient()
+    parent = dialogflow.AgentsClient.agent_path(
+        os.getenv("DIALOGFLOW_PROJECT_ID", ""))
+    training_phrases = []
+    for training_phrases_part in training_phrases_parts:
+        part = dialogflow.Intent.TrainingPhrase.Part(
+            text=training_phrases_part)
+
+        training_phrase = dialogflow.Intent.TrainingPhrase(parts=[part])
+        training_phrases.append(training_phrase)
+
+    # text = dialogflow.Intent.Message.Text(text=message_texts)
+    # message = dialogflow.Intent.Message(text=text)
+    message_data = [{"text": text.strip()} for text in message_texts.split()]
+
+    intent = dialogflow.Intent(
+        display_name=display_name, training_phrases=training_phrases, messages=message_data
+    )
+
+    response = intents_client.create_intent(
+        request={"parent": parent, "intent": intent}
+    )
+
+    print("Intent created: {}".format(response))
+
     return response
