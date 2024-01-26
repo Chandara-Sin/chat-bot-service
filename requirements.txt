@@ -1,3 +1,5 @@
 Flask
 Gunicorn
 Flask-Cors
+google-cloud-dialogflow
+python-dotenv

@@ -111,3 +111,6 @@ tokenizer.pickle
 
 # Tax_Data
 /tax_data.csv
+
+# Authentication Key
+/sophea-wjij-c35374f57201.json
