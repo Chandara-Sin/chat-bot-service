@@ -47,12 +47,12 @@ def create_intent(display_name, training_phrases_parts, message_texts):
         training_phrase = dialogflow.Intent.TrainingPhrase(parts=[part])
         training_phrases.append(training_phrase)
 
-    # text = dialogflow.Intent.Message.Text(text=message_texts)
-    # message = dialogflow.Intent.Message(text=text)
-    message_data = [{"text": text.strip()} for text in message_texts.split()]
+    text = dialogflow.Intent.Message.Text(text=message_texts)
+    message = dialogflow.Intent.Message(text=text)
 
     intent = dialogflow.Intent(
-        display_name=display_name, training_phrases=training_phrases, messages=message_data
+        display_name=display_name, training_phrases=training_phrases, messages=[
+            message]
     )
 
     response = intents_client.create_intent(
