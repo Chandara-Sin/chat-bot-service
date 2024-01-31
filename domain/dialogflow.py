@@ -35,7 +35,7 @@ def get_taxpayer_registered(taxpayer: str):
     return response
 
 
-def create_intent(display_name, training_phrases_parts, message_texts):
+def create_intent(display_name, training_phrases_parts, message_texts: str):
     intents_client = dialogflow.IntentsClient()
     parent = dialogflow.AgentsClient.agent_path(
         os.getenv("DIALOGFLOW_PROJECT_ID", ""))
@@ -47,7 +47,7 @@ def create_intent(display_name, training_phrases_parts, message_texts):
         training_phrase = dialogflow.Intent.TrainingPhrase(parts=[part])
         training_phrases.append(training_phrase)
 
-    text = dialogflow.Intent.Message.Text(text=message_texts)
+    text = dialogflow.Intent.Message.Text(text=[message_texts])
     message = dialogflow.Intent.Message(text=text)
 
     intent = dialogflow.Intent(
@@ -60,5 +60,3 @@ def create_intent(display_name, training_phrases_parts, message_texts):
     )
 
     print("Intent created: {}".format(response))
-
-    return response

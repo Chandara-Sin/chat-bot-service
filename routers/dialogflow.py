@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, json, request
 from domain.dialogflow import get_glossary, get_taxpayer, get_taxpayer_registered, create_intent
 
 dialogflow_blueprint = Blueprint(
@@ -37,6 +37,5 @@ def dialogflow_intent():
     training_phrases_parts = req["training_phrases_parts"]
     message_texts = req["message_texts"]
 
-    res = create_intent(display_name, training_phrases_parts, message_texts)
-
-    return {"message": f"Intent '{display_name}' created successfully.", "data": res}, 201
+    create_intent(display_name, training_phrases_parts, message_texts)
+    return {"message": f"Intent '{display_name}' created successfully."}, 201
